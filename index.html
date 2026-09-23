@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buat Sayang 💖</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{--bg1:#2a0a1f;--bg2:#5b1140;--pink:#ff4d8d;--soft:#ffd1e3;--txt:#fff0f6;
+ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:linear-gradient(160deg,var(--bg1),var(--bg2));color:var(--txt);
+ font-family:'Poppins','Segoe UI',system-ui,sans-serif;text-align:center;overflow-x:hidden}
+h1,h2{font-family:'Pacifico','Brush Script MT',cursive;font-weight:400;margin:.2em 0}
+section{padding:28px 20px;max-width:520px;margin:0 auto;position:relative;z-index:2}
+.hidden{display:none!important}
+.fh{position:fixed;bottom:-30px;z-index:1;pointer-events:none;animation:up linear forwards}
+@keyframes up{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+
+/* cover */
+.qrcard{background:#fff;border-radius:28px;padding:22px;margin:20px auto;width:min(300px,86vw);
+ box-shadow:0 0 0 6px var(--pink),0 0 40px rgba(255,77,141,.6);position:relative}
+.qrcard canvas{width:100%;height:auto;display:block}
+.qrcard::before,.qrcard::after{content:"💗";position:absolute;font-size:34px}
+.qrcard::before{top:-18px;left:-14px;transform:rotate(-20deg)}
+.qrcard::after{bottom:-18px;right:-14px;transform:rotate(15deg)}
+.note{font-size:13px;opacity:.75;line-height:1.5}
+input{width:100%;padding:10px 12px;border-radius:12px;border:1px solid #ff8db7;background:#3a1030;color:#fff;margin-top:8px}
+button{background:linear-gradient(135deg,#ff4d8d,#ff8db7);border:0;color:#fff;font-weight:600;padding:12px 22px;border-radius:30px;
+ font-size:15px;margin-top:12px;cursor:pointer;box-shadow:0 6px 20px rgba(255,77,141,.5)}
+
+/* 3D heart */
+.scene{height:190px;perspective:700px;margin:10px auto 0;display:flex;align-items:center;justify-content:center}
+.heart3d{position:relative;width:150px;height:150px;transform-style:preserve-3d;animation:spin 6s linear infinite;
+ filter:drop-shadow(0 0 22px rgba(255,77,141,.85))}
+.heart3d svg{position:absolute;inset:0;width:100%;height:100%}
+@keyframes spin{from{transform:rotateX(-12deg) rotateY(0)}to{transform:rotateX(-12deg) rotateY(360deg)}}
+.pulse{animation:beat 1.2s ease-in-out infinite}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.12)}30%{transform:scale(1)}45%{transform:scale(1.08)}}
+
+.big{font-size:34px;color:var(--soft);text-shadow:0 0 18px var(--pink)}
+.type{min-height:3.4em;font-size:17px;line-height:1.7;color:var(--soft);white-space:pre-line}
+.letter{background:rgba(255,255,255,.08);border:1px solid rgba(255,141,183,.4);border-radius:20px;padding:20px;
+ line-height:1.8;font-size:15px;margin-top:16px;backdrop-filter:blur(6px)}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.frame{aspect-ratio:3/4;border-radius:18px;overflow:hidden;border:3px solid var(--soft);
+ background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;
+ font-size:12px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.35);transition:transform .3s}
+.frame:nth-child(odd){transform:rotate(-2.5deg)}.frame:nth-child(even){transform:rotate(2.5deg)}
+.frame img{width:100%;height:100%;object-fit:cover;object-position:center 35%}
+#mbtn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9;width:54px;height:54px;border-radius:50%;padding:0;margin:0;font-size:24px}
+#mhint{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:9;background:rgba(0,0,0,.6);padding:8px 16px;border-radius:20px;font-size:13px;white-space:nowrap;animation:beat 1.4s ease-in-out infinite}
+</style>
+</head>
+<body>
+
+<!-- HALAMAN 1: BARCODE -->
+<section id="cover" style="padding-top:7vh">
+  <h1 style="font-size:32px">Scan aku sayang 💗</h1>
+  <div class="qrcard pulse"><canvas id="qr"></canvas></div>
+  <p class="note">Arahkan kamera HP ke barcode love ini</p>
+</section>
+
+<!-- HALAMAN 2: HADIAH -->
+<section id="gift" class="hidden">
+  <div class="scene"><div class="heart3d" id="h3d"></div></div>
+  <h1 class="big">Makasih Sayang,<br>Cika 💖</h1>
+  <p class="type" id="typed"></p>
+  <div class="letter">
+    Makasih ya Cika sayang, udah ngasih aku hadiah di hari ulang tahunku 🎂<br>
+    Kue ulang tahunnya, jaket zippernya, tulisan selamat ulang tahunnya, sampai kerajinan tangan tempel-tempel yang ada foto kita berdua, semuanya bikin aku terharu 🥹🎁<br>
+    Tapi yang paling berharga buat aku itu kamu, yang selalu ada dan sabar sama aku. Kamu alasan aku senyum tiap hari.<br><br>
+    <b>Aku sayang kamu. I love you, sayang.</b> ♾️💕
+  </div>
+  <h2 style="font-size:28px;margin-top:30px">Kamu, cantiknya aku 📸</h2>
+  <div class="gallery" id="gal"></div>
+  <p class="note" style="margin-top:30px">Dari aku, yang paling bucin sama kamu 💘</p>
+</section>
+
+<button id="mbtn" class="hidden" aria-label="musik">🔇</button>
+<div id="mhint" class="hidden">Tap layar buat nyalain lagu 🎶</div>
+
+<script>
+/* ====== EDIT DI SINI ====== */
+const NAMA = "Cika";
+const LINK = "https://azharz845.github.io/maacii-cika-sayang/?hadiah";
+// Nama file foto (taruh di folder yang sama dengan index.html)
+const PHOTOS = ["foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg"];
+const PESAN = "Halo " + NAMA + " 💕\nAku sayang kamu.\nI love you sayang!";
+/* ========================== */
+
+const HEART = "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+
+// love 3D dari tumpukan layer
+(function(){
+  const box = document.getElementById('h3d'), n = 22;
+  for(let i=0;i<n;i++){
+    const z = (i-(n-1)/2)*2.4, edge = Math.abs(i-(n-1)/2)/((n-1)/2);
+    const l = 38 + (edge*22);
+    box.insertAdjacentHTML('beforeend',
+     `<svg viewBox="0 0 24 24" style="transform:translateZ(${z}px)"><path d="${HEART}" fill="hsl(338,90%,${l}%)"/></svg>`);
+  }
+})();
+
+function drawQR(text){
+  try{
+    const qr = qrcode(0,'H'); qr.addData(text); qr.make();
+    const c = document.getElementById('qr'), n = qr.getModuleCount(), s = 12, m = 2, size=(n+m*2)*s;
+    c.width = c.height = size;
+    const x = c.getContext('2d');
+    x.fillStyle = '#fff'; x.fillRect(0,0,size,size);
+    x.fillStyle = '#c2185b';
+    for(let r=0;r<n;r++)for(let q=0;q<n;q++) if(qr.isDark(r,q)){
+      const px=(q+m)*s, py=(r+m)*s;
+      x.beginPath(); x.roundRect(px+.5,py+.5,s-1,s-1,3); x.fill();
+    }
+    // logo love di tengah
+    const cs = size*0.2, cx=size/2, cy=size/2;
+    x.fillStyle='#fff'; x.beginPath(); x.arc(cx,cy,cs*0.75,0,7); x.fill();
+    x.save(); x.translate(cx-cs/2,cy-cs/2); x.scale(cs/24,cs/24);
+    x.fillStyle='#ff2d75'; x.fill(new Path2D(HEART)); x.restore();
+  }catch(e){ console.error(e); }
+}
+
+function floatHearts(){
+  const e = ['💗','💖','💕','💘','❤️'];
+  setInterval(()=>{
+    const s = document.createElement('span');
+    s.className='fh'; s.textContent=e[Math.floor(Math.random()*e.length)];
+    s.style.left=Math.random()*100+'vw';
+    s.style.fontSize=(14+Math.random()*22)+'px';
+    s.style.animationDuration=(5+Math.random()*5)+'s';
+    document.body.appendChild(s); setTimeout(()=>s.remove(),10500);
+  },500);
+}
+
+let typedOnce=false;
+function typeText(){
+  if(typedOnce) return; typedOnce=true;
+  const el=document.getElementById('typed'); let i=0;
+  const t=setInterval(()=>{ el.textContent=PESAN.slice(0,++i); if(i>=PESAN.length) clearInterval(t); },70);
+}
+
+function buildGallery(){
+  const g=document.getElementById('gal'); g.innerHTML='';
+  const total=PHOTOS.length||4;
+  for(let i=0;i<total;i++){
+    g.insertAdjacentHTML('beforeend', PHOTOS[i]
+      ? `<div class="frame"><img src="${PHOTOS[i]}" alt="foto ${i+1}"></div>`
+      : `<div class="frame">💗<br>foto kamu di sini</div>`);
+  }
+}
+
+
+/* ====== MUSIK (melodi kotak musik, dibuat lewat Web Audio) ====== */
+let ac,master,timer,playing=false,step=0,nextT=0;
+const EIGHTH=60/72/2;
+const CH=[[60,64,67,72],[59,62,67,71],[57,60,64,69],[53,57,60,65]];
+const ME=[[79,0,76,0,72,0,76,0],[79,0,74,0,71,0,74,0],[76,0,72,0,69,0,72,0],[77,0,74,0,72,0,69,0]];
+const AR=[0,1,2,3,2,1,2,1];
+const hz=n=>440*Math.pow(2,(n-69)/12);
+function tone(f,t,d,v){
+  const o=ac.createOscillator(),o2=ac.createOscillator(),g=ac.createGain(),g2=ac.createGain();
+  o.type='sine';o.frequency.value=f;o2.type='sine';o2.frequency.value=f*2;g2.gain.value=.22;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+  o.connect(g);o2.connect(g2);g2.connect(g);g.connect(master);
+  o.start(t);o2.start(t);o.stop(t+d+.05);o2.stop(t+d+.05);
+}
+function sched(){
+  while(nextT<ac.currentTime+.4){
+    const bar=Math.floor(step/8)%4,i=step%8;
+    tone(hz(CH[bar][AR[i]]),nextT,1.2,.09);
+    const m=ME[bar][i]; if(m) tone(hz(m),nextT,1.6,.16);
+    if(i===0) tone(hz(CH[bar][0]-12),nextT,2.2,.12);
+    step++;nextT+=EIGHTH;
+  }
+}
+function startMusic(){
+  try{
+    if(!ac){
+      ac=new (window.AudioContext||window.webkitAudioContext)();
+      master=ac.createGain();master.gain.value=.8;master.connect(ac.destination);
+      const d=ac.createDelay();d.delayTime.value=.32;const fb=ac.createGain();fb.gain.value=.3;
+      master.connect(d);d.connect(fb);fb.connect(d);d.connect(ac.destination);
+    }
+    ac.resume();nextT=ac.currentTime+.1;clearInterval(timer);timer=setInterval(sched,100);playing=true;
+  }catch(e){console.error(e)}
+  ui();
+}
+function stopMusic(){clearInterval(timer);playing=false;ui();}
+function ui(){
+  const g=isGift();
+  document.getElementById('mbtn').classList.toggle('hidden',!g);
+  document.getElementById('mhint').classList.toggle('hidden',!g||playing);
+  document.getElementById('mbtn').textContent=playing?'🎵':'🔇';
+}
+function firstTap(e){
+  if(e.target.closest('#mbtn'))return;
+  if(isGift()&&!playing){document.removeEventListener('pointerdown',firstTap);startMusic();}
+}
+document.addEventListener('pointerdown',firstTap);
+document.getElementById('mbtn').addEventListener('click',()=>{
+  document.removeEventListener('pointerdown',firstTap);
+  playing?stopMusic():startMusic();
+});
+
+function isGift(){ return location.hash==='#hadiah' || /[?&]hadiah/.test(location.search); }
+function openGift(){ location.hash='hadiah'; startMusic(); }
+
+function route(){
+  const gift = isGift();
+  document.getElementById('cover').classList.toggle('hidden',gift);
+  document.getElementById('gift').classList.toggle('hidden',!gift);
+  if(gift){ typeText(); window.scrollTo(0,0); } else if(playing) stopMusic();
+  ui();
+}
+
+drawQR(LINK);
+buildGallery(); floatHearts(); route();
+window.addEventListener('hashchange',route);
+</script>
+</body>
+</html>
